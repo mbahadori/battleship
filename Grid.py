@@ -30,6 +30,14 @@ class Grid:
         for row in range( rowStart , rowStart + size ) :
             self.grid[row][col] = value
 
+    # This is a useful method to determine if the space is "~" or something else
+    # Send it the grid you want to check, so ship or shot
+    def isSpaceWater(self, row, col):
+        if self.grid[row][col] == "~":
+            return True
+        else:
+            return False
+
     def returnLocation(self , row , col ):
         return self.grid[row][col]
 
