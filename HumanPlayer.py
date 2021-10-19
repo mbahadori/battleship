@@ -1,7 +1,7 @@
 from Player import Player
 class HumanPlayer(Player):
-    def __init__(self): #constructor - initializes the gridsShip, gridShots, and ShipKey attributes of the class
-        super().__init__(self)
+  def __init__(self): #constructor - initializes the gridsShip, gridShots, and ShipKey attributes of the class
+        super().__init__()
         self.ShipKey = {
          "A": 5,
          "B": 4,
@@ -9,35 +9,40 @@ class HumanPlayer(Player):
          "S": 3,
          "D": 2
         }
-
   def placeShip(self, ship, size): #This method uses human input to place ships
       while True: #This loop keeps running until the user is able to place their ship
           column = int(input("Please enter a column number:"))
           row = int(input("Please enter a row number:"))
           direction = str(input("Please enter a direction - horizontal or vertical:"))
           if "horizontal" in direction:  #if the user's input indicates they want to place the ship horizontally
+              canPlaceShip = True
               for x in range(size): #traverses through each spot the ship will take up determining if the ship can be placed or not
-                  row = row + 1
+
                   if self.gridShips.isSpaceWater(row, column) == False: #if the space is not water - you cannot place the ship
+                     canPlaceShip = False
                      break #break out of for loop and ask for new inputs
-                  if x == size - 1: #if you can place the ship in each spot it will take up - you can place your ship.
-                     self.gridShips.changeRow(row, ship, column, size)
+                  column = column + 1
+              if canPlaceShip: #if you can place the ship in each spot it will take up - you can place your ship.
+                 self.gridShips.changeRow(row, ship, column-size, size)
+                 return
           elif "vertical" in direction: #if the user's input indicates they want to place the ship vertically
               for x in range(size): #traverses through each spot the ship will take up determining if the ship can be placed or not
-                  column = column + 1
+                  column = column + 1 #CHANGE THE ROW - SAME LOGIC AT HORIZONTAL
                   if self.gridShips.isSpaceWater(row, column) == False: #the space is not water - you cannot place the ship
                       break #break out of loop and ask for new inputs
                   if x == size - 1: #if you can place the ship in each spot it will take up - you can place your ship.
-                      self.gridShips.changeCol(column, ship, row, size)
+                      self.gridShips.changeCol(column-size, ship, row, size)
+                      return False
 
   def isShipSunk(self, otherPlayer, row, column ):#this method determines if the other player's ship has been sunk or not
-      val = otherPlayer.gridShips[row][column]
-      if val in self.ShipKey: #if this value corresponds to a battleship,
-          self.ShipKey.update({"val": self.ShipKey[val] - 1}) #subtracts one from ShipKey
-          if self.ShipKey[val] == 0: #if all of the ship's "indexes" have been sunk
+      ship = otherPlayer.gridShips.returnLocation(row, column) #returns A, B, C?
+      if ship in self.ShipKey: #if this value corresponds to a battleship A, B, ...
+          num = self.ShipKey.get(ship)
+          self.ShipKey.update({ship: num - 1})
+          if self.ShipKey[ship] == 0: #if the ship has been sunk
               return True
-          else: #the ship has not been sunk yet
-              return False
+      return False
+
 
   def takeTurn(self, otherPlayer):#this method determines if you hit your opponent's ship
       column = int(input("Please enter a column number:"))
@@ -54,11 +59,12 @@ class HumanPlayer(Player):
 
   def stillHasShips(self): #this method determines if the Player's ship grid still has ships or not
       sum = 0
-      for x in self.ShipKey.keys(): #This loop sums up the int values of ShipKey
-          sum = sum + (x, self.ShipKey[x])
+      for x in self.ShipKey: #This loop sums up the numerical values of ShipKey
+          sum = sum + self.ShipKey.get(x)
       if sum == 0: #if all ships have been sunk, the other player wins
          return False
       else: #if there is still ships that have not been sunk
           return True
 
-
+ #ships are correctly placed - human player and calling grid.
+ #take Turn - smtg you want to come back to later.
