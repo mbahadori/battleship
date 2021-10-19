@@ -11,28 +11,29 @@ class HumanPlayer(Player):
         }
   def placeShip(self, ship, size): #This method uses human input to place ships
       while True: #This loop keeps running until the user is able to place their ship
-          column = int(input("Please enter a column number:"))
           row = int(input("Please enter a row number:"))
+          column = int(input("Please enter a column number:"))
           direction = str(input("Please enter a direction - horizontal or vertical:"))
           if "horizontal" in direction:  #if the user's input indicates they want to place the ship horizontally
               canPlaceShip = True
               for x in range(size): #traverses through each spot the ship will take up determining if the ship can be placed or not
-
                   if self.gridShips.isSpaceWater(row, column) == False: #if the space is not water - you cannot place the ship
                      canPlaceShip = False
                      break #break out of for loop and ask for new inputs
                   column = column + 1
-              if canPlaceShip: #if you can place the ship in each spot it will take up - you can place your ship.
+              if canPlaceShip: #if you can place the ship
                  self.gridShips.changeRow(row, ship, column-size, size)
                  return
           elif "vertical" in direction: #if the user's input indicates they want to place the ship vertically
+              canPlaceShip = True
               for x in range(size): #traverses through each spot the ship will take up determining if the ship can be placed or not
-                  column = column + 1 #CHANGE THE ROW - SAME LOGIC AT HORIZONTAL
                   if self.gridShips.isSpaceWater(row, column) == False: #the space is not water - you cannot place the ship
+                      canPlaceShip = False
                       break #break out of loop and ask for new inputs
-                  if x == size - 1: #if you can place the ship in each spot it will take up - you can place your ship.
-                      self.gridShips.changeCol(column-size, ship, row, size)
-                      return False
+                  row = row + 1
+              if canPlaceShip: #if you can place the ship
+                  self.gridShips.changeCol(column, ship, row-size, size)
+                  return
 
   def isShipSunk(self, otherPlayer, row, column ):#this method determines if the other player's ship has been sunk or not
       ship = otherPlayer.gridShips.returnLocation(row, column) #returns A, B, C?
