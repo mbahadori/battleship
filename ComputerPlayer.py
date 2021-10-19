@@ -4,7 +4,7 @@ class ComputerPlayer(Player):
 
 
     def __init__(self):
-        super().__init__(self)
+        super().__init__()
         self.shipKey = {
             "A": 5,
             "B": 4,
@@ -22,9 +22,10 @@ class ComputerPlayer(Player):
         ship = otherPlayer.gridShips.returnLocation(r, c)
         num = self.shipKey.get(ship)
         if ship in self.shipKey:
-            self.shipKey.update({"ship": num-1})
+            self.shipKey.update({ship: num-1})
             if num == 0:
                 return True
+
 
     # ComputerPlayer randomly makes a shot,
     # Changes grid to have an M for miss and H for hit
@@ -34,10 +35,12 @@ class ComputerPlayer(Player):
         c = random.randint(0, 10)
         if otherPlayer.gridShips.isSpaceWater(r, c):  # if it is water
             self.gridShots.changeSingleSpace(r, c, "M")  # M = miss
+            print(self.gridShots)
         else:  # ship spot
             self.gridShots.changeSingleSpace(r, c, "H")  # H = hit
+            print(self.gridShots)
             if otherPlayer.isShipSunk():  # sunk a ship
-                print(otherPlayer.gridShips[r][c] + " is sunk")
+                print(otherPlayer.gridShips.returnLocation(r, c) + " is sunk")
         self.gridShots.printGrid()
         if self.stillHasShips() == False:  # all ships are sunk
             print("You have sunk all ships, you win!")
@@ -50,34 +53,30 @@ class ComputerPlayer(Player):
         rStart = 0
         cStart = 0
         while x == False:  # run through until points are valid
-            rStart = random.randint(0, 10)
-            cStart = random.randint(0, 10)
-            direction = random.randint(0, 4)
+            rStart = random.randint(0, 9)
+            cStart = random.randint(0, 9)
+            direction = random.randint(0, 1)
+            print("rStart = ", rStart)
+            print("cStart = ", cStart)
+            print("direction = ", direction)
+            count = 0;
             if self.gridShips.isSpaceWater(rStart, cStart):
                 # 0 = down, 1 = up, 2 = right, 3 = left
-                if direction == 0:  # down
-                    if self.gridShips.isSpaceWater(rStart, (cStart+size)):
-                        count += 1
-                if direction == 1:  # up
-                    if self.gridShips.isSpaceWater(rStart, (cStart-size)):
-                        count += 1
-                if direction == 2:  # right
-                    if self.gridShips.isSpaceWater((rStart + size), cStart):
-                        count += 1
-                if direction == 3:  # left
-                    if self.gridShips.isSpaceWater((rStart - size), cStart):
-                        count += 1
-                if count == 2: # both points are legal
+                for y in range(size):
+                    if direction == 0:  # down
+                        if (rStart + size) <= 10 and self.gridShips.isSpaceWater(rStart+y, cStart):
+                            count += 1
+                    if direction == 1:  # right
+                        if (cStart+size) <= 10 and self.gridShips.isSpaceWater(rStart , cStart+y):
+                            count += 1
+                if count == size:  # both points are legal
                     x = True
 
         if direction == 0: # down
             self.gridShips.changeCol(cStart, ship, rStart, size)
-        if direction == 1: # up
-            self.gridShips.changeCol(cStart-size, ship, rStart, size) # end at rStart
-        if direction == 2: # right
-            self.gridShips.changeRow(cStart, ship, rStart, size)
-        if direction == 3: # left
-            self.gridShips.changeRow(cStart, ship, rStart-size, size) # end at cStart
+        if direction == 1: # right
+            self.gridShips.changeRow(rStart, ship, cStart, size)
+
 
 
     # this method will determine if the Player's ship grid still
