@@ -10,10 +10,14 @@ class HumanPlayer(Player):
          "D": 2
         }
   def placeShip(self, ship, size): #This method uses human input to place ships
+      self.printGrids()
       while True: #This loop keeps running until the user is able to place their ship
           row = int(input("Please enter a row number:"))
           column = int(input("Please enter a column number:"))
           direction = str(input("Please enter a direction - horizontal or vertical:"))
+          if row > 9 or row < 0 or column > 9 or column <0 or (direction != "horizontal" and direction != "vertical"):
+              print ("Please enter new input")
+              continue
           if "horizontal" in direction:  #if the user indicates they want to place the ship horizontally
               canPlaceShip = True
               for x in range(size): #traverses through each spot the ship will take up determining if the ship can be placed or not
