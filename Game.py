@@ -1,13 +1,21 @@
 from HumanPlayer import HumanPlayer
 from ComputerPlayer import ComputerPlayer
 
-
 # StillHasShips false --> game is over
 
+H1 = HumanPlayer()#check if this works
+H1.createShipGrid()
+C1 = ComputerPlayer()#check if this works
+C1.createShipGrid()
 
-H1 = HumanPlayer()
-H1.createShipGrid()  #can i do this or do i need to all the placeShip method from Human Player 5x
-H1.printGrids() #can comment this out later
+while H1.stillHasShips() = true and C1.stillHasShips() = true: #while both players ships are not sunk
+    #
+
+#H1.takeTurn(C1)
+#C1.takeTurn(H1)
+#if H1.stillHasShips() = false or C1.stillHasShips() = false - maybe seperate these statements but idea
+#if H1.stillHasShips() = false: "Computer Player has won!"
+
 
 #Step 3 - allow a human player to play against a computer player
   #Take turns and play until some player wins or loses
