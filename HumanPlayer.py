@@ -15,24 +15,34 @@ class HumanPlayer(Player):
           row = int(input("Please enter a row number:"))
           column = int(input("Please enter a column number:"))
           direction = str(input("Please enter a direction - horizontal or vertical:"))
-          if row > 9 or row < 0 or column > 9 or column <0 or (direction != "horizontal" and direction != "vertical"):
+          if (direction != "horizontal" and direction != "vertical"):
               print ("Please enter new input")
               continue
+
           if "horizontal" in direction:  #if the user indicates they want to place the ship horizontally
+              if row > 9 or row < 0 or column + size > 9 or column < 0:
+                  print("Please enter new input")
+                  continue
               canPlaceShip = True
               for x in range(size): #traverses through each spot the ship will take up determining if the ship can be placed or not
                   if self.gridShips.isSpaceWater(row, column) == False: #if the space is occupied - you cannot place the ship
                      canPlaceShip = False
+                     print ("Please enter new input - this space is occupied")
                      break #break out of for loop and ask for new inputs
                   column = column + 1
               if canPlaceShip: #if you can place the ship
                  self.gridShips.changeRow(row, ship, column-size, size)
                  return
+
           elif "vertical" in direction: #if the user indicates they want to place the ship vertically
+              if row + size > 9 or row < 0 or column > 9 or column < 0:
+                  print("Please enter new input")
+                  continue
               canPlaceShip = True
               for x in range(size): #traverses through each spot the ship will take up determining if the ship can be placed or not
                   if self.gridShips.isSpaceWater(row, column) == False: #the space is occupied- you cannot place the ship
                       canPlaceShip = False
+                      print("Please enter new input - this space is occupied")
                       break #break out of loop and ask for new inputs
                   row = row + 1
               if canPlaceShip: #if you can place the ship
