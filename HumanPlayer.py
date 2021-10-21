@@ -14,20 +14,20 @@ class HumanPlayer(Player):
           row = int(input("Please enter a row number:"))
           column = int(input("Please enter a column number:"))
           direction = str(input("Please enter a direction - horizontal or vertical:"))
-          if "horizontal" in direction:  #if the user's input indicates they want to place the ship horizontally
+          if "horizontal" in direction:  #if the user indicates they want to place the ship horizontally
               canPlaceShip = True
               for x in range(size): #traverses through each spot the ship will take up determining if the ship can be placed or not
-                  if self.gridShips.isSpaceWater(row, column) == False: #if the space is not water - you cannot place the ship
+                  if self.gridShips.isSpaceWater(row, column) == False: #if the space is occupied - you cannot place the ship
                      canPlaceShip = False
                      break #break out of for loop and ask for new inputs
                   column = column + 1
               if canPlaceShip: #if you can place the ship
                  self.gridShips.changeRow(row, ship, column-size, size)
                  return
-          elif "vertical" in direction: #if the user's input indicates they want to place the ship vertically
+          elif "vertical" in direction: #if the user indicates they want to place the ship vertically
               canPlaceShip = True
               for x in range(size): #traverses through each spot the ship will take up determining if the ship can be placed or not
-                  if self.gridShips.isSpaceWater(row, column) == False: #the space is not water - you cannot place the ship
+                  if self.gridShips.isSpaceWater(row, column) == False: #the space is occupied- you cannot place the ship
                       canPlaceShip = False
                       break #break out of loop and ask for new inputs
                   row = row + 1
@@ -36,8 +36,8 @@ class HumanPlayer(Player):
                   return
 
   def isShipSunk(self, otherPlayer, row, column ):#this method determines if the other player's ship has been sunk or not
-      ship = otherPlayer.gridShips.returnLocation(row, column) #returns A, B, C?
-      if ship in self.ShipKey: #if this value corresponds to a battleship A, B, ...
+      ship = otherPlayer.gridShips.returnLocation(row, column) #returns a ship (eg. A, B..)
+      if ship in self.ShipKey: #if ship is found in ShipKey
           num = self.ShipKey.get(ship)
           self.ShipKey.update({ship: num - 1})
           if self.ShipKey[ship] == 0: #if the ship has been sunk
@@ -67,5 +67,3 @@ class HumanPlayer(Player):
       else: #if there is still ships that have not been sunk
           return True
 
- #ships are correctly placed - human player and calling grid.
- #take Turn - smtg you want to come back to later.
