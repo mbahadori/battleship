@@ -21,9 +21,9 @@ class ComputerPlayer(Player):
     def isShipSunk(self, otherPlayer, r, c):
         ship = otherPlayer.gridShips.returnLocation(r, c)
         num = self.shipKey.get(ship)
-        if ship in self.shipKey:
+        if ship in self.shipKey: # ship in the game
             self.shipKey.update({ship: num-1})
-            if num == 0:
+            if num == 0: # all spots of the ship have been hit
                 return True
 
 
@@ -36,7 +36,7 @@ class ComputerPlayer(Player):
         if otherPlayer.gridShips.isSpaceWater(r, c):  # if it is water
             self.gridShots.changeSingleSpace(r, c, "M")  # M = miss
             print(self.gridShots)
-        else:  # ship spot
+        else:  # ship is shot
             self.gridShots.changeSingleSpace(r, c, "H")  # H = hit
             print(self.gridShots)
             if otherPlayer.isShipSunk():  # sunk a ship
@@ -47,6 +47,8 @@ class ComputerPlayer(Player):
 
     # Places the ships in valid places
     # fills the shipGrid
+    # ship : type of ship
+    # size : number of spots ship uses
     def placeShip(self, ship, size):
         x = False
         count = 0
@@ -56,13 +58,10 @@ class ComputerPlayer(Player):
             rStart = random.randint(0, 9)
             cStart = random.randint(0, 9)
             direction = random.randint(0, 1)
-            print("rStart = ", rStart)
-            print("cStart = ", cStart)
-            print("direction = ", direction)
-            count = 0;
+            count = 0
             if self.gridShips.isSpaceWater(rStart, cStart):
                 # 0 = down, 1 = up, 2 = right, 3 = left
-                for y in range(size):
+                for y in range(size): # checks if all spots are valid
                     if direction == 0:  # down
                         if (rStart + size) <= 10 and self.gridShips.isSpaceWater(rStart+y, cStart):
                             count += 1
