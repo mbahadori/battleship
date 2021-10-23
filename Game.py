@@ -8,14 +8,20 @@ H1.createShipGrid()
 C1 = ComputerPlayer()#check if this works
 C1.createShipGrid()
 
-while H1.stillHasShips() = true and C1.stillHasShips() = true: #while both players ships are not sunk
-    #
+while H1.stillHasShips() = True and C1.stillHasShips() = True: #while both players ships are not sunk
+    H1.takeTurn(C1)
+    if H1.stillHasShips() = False:
+        print ("Computer Player has won!")
+        return
+    C1.takeTurn(H1)
+    if C1.stillHasShips() = False:
+        print ("Human Player has won!")
+        return
 
 #H1.takeTurn(C1)
 #C1.takeTurn(H1)
 #if H1.stillHasShips() = false or C1.stillHasShips() = false - maybe seperate these statements but idea
-#if H1.stillHasShips() = false: "Computer Player has won!"
-
+#if H1.stillHasShips() = false: "Computer Player has won!
 
 #Step 3 - allow a human player to play against a computer player
   #Take turns and play until some player wins or loses
