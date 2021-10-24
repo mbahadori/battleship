@@ -35,8 +35,8 @@ class ComputerPlayer(Player):
         if self.stillHasShips() == False:  # all ships are sunk
             print("You have sunk all ships, you win!")
         else:
-            r = random.randint(0, 10)
-            c = random.randint(0, 10)
+            r = random.randint(0, 9)
+            c = random.randint(0, 9)
             if otherPlayer.gridShips.isSpaceWater(r, c):  # if it is water
                 self.gridShots.changeSingleSpace(r, c, "M")  # M = miss
                 #self.printGrids()
