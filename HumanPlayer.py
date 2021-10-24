@@ -73,6 +73,7 @@ class HumanPlayer(Player):
           else: #if you hit a spot on the opponent's ship but it has not sunk
               return "You got a hit!"
       else:#you hit water
+        self.gridShots.changeSingleSpace(row, column, "M")
         return "You missed!"
 
 
