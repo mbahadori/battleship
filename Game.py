@@ -10,9 +10,11 @@ C1.createShipGrid()
 
 while H1.stillHasShips() == True or C1.stillHasShips() == True: #while player's ships are not sunk
     H1.takeTurn(C1)
+    print(H1.gridShots)
     if H1.stillHasShips() == False:
         print("Human Player has won!")
     C1.takeTurn(H1)
+    print(C1.gridShots)
     if C1.stillHasShips() == False:
         print("Computer Player has won!")
 
