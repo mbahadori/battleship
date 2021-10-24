@@ -3,20 +3,18 @@ from ComputerPlayer import ComputerPlayer
 
 # StillHasShips false --> game is over
 
-H1 = HumanPlayer()#check if this works
+H1 = HumanPlayer() #check if this works
 H1.createShipGrid()
-C1 = ComputerPlayer()#check if this works
+C1 = ComputerPlayer() #check if this works
 C1.createShipGrid()
 
-while H1.stillHasShips() = True and C1.stillHasShips() = True: #while both players ships are not sunk
+while H1.stillHasShips() == True or C1.stillHasShips() == True: #while player's ships are not sunk
     H1.takeTurn(C1)
-    if H1.stillHasShips() = False:
-        print ("Computer Player has won!")
-        return
+    if H1.stillHasShips() == False:
+        print("Human Player has won!")
     C1.takeTurn(H1)
-    if C1.stillHasShips() = False:
-        print ("Human Player has won!")
-        return
+    if C1.stillHasShips() == False:
+        print("Computer Player has won!")
 
 #H1.takeTurn(C1)
 #C1.takeTurn(H1)
