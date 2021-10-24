@@ -61,6 +61,7 @@ class HumanPlayer(Player):
 
 
   def takeTurn(self, otherPlayer):#this method determines if you hit your opponent's ship
+      self.printGrids()
       column = int(input("Please enter a column number:"))
       row = int(input("Please enter a row number:"))
       if otherPlayer.gridShips.isSpaceWater(row, column) == False: #not water - you have hit a ship!
