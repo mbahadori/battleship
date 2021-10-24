@@ -5,8 +5,13 @@ from ComputerPlayer import ComputerPlayer
 
 H1 = HumanPlayer() #check if this works
 H1.createShipGrid()
+H1.printGrids()
+
+
 C1 = ComputerPlayer() #check if this works
 C1.createShipGrid()
+C1.printGrids()
+#print this out
 
 while H1.stillHasShips() == True or C1.stillHasShips() == True: #while player's ships are not sunk
     H1.takeTurn(C1)
