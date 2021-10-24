@@ -31,6 +31,7 @@ class ComputerPlayer(Player):
     # Changes grid to have an M for miss and H for hit
     # says if player has won
     def takeTurn(self, otherPlayer):
+        self.printGrids()
         if self.stillHasShips() == False:  # all ships are sunk
             print("You have sunk all ships, you win!")
         else:
@@ -38,13 +39,12 @@ class ComputerPlayer(Player):
             c = random.randint(0, 10)
             if otherPlayer.gridShips.isSpaceWater(r, c):  # if it is water
                 self.gridShots.changeSingleSpace(r, c, "M")  # M = miss
-                self.printGrids()
+                #self.printGrids()
             else:  # ship is shot
                 self.gridShots.changeSingleSpace(r, c, "H")  # H = hit
-                self.printGrids()
+                #self.printGrids()
                 if otherPlayer.isShipSunk(otherPlayer, r, c):  # sunk a ship
                     print(otherPlayer.gridShips.returnLocation(r, c) + " is sunk")
-            self.printGrids()
 
 
     # Places the ships in valid places
@@ -52,6 +52,7 @@ class ComputerPlayer(Player):
     # ship : type of ship
     # size : number of spots ship uses
     def placeShip(self, ship, size):
+        self.printGrids()
         x = False
         count = 0
         rStart = 0
@@ -77,7 +78,6 @@ class ComputerPlayer(Player):
             self.gridShips.changeCol(cStart, ship, rStart, size)
         if direction == 1: # right
             self.gridShips.changeRow(rStart, ship, cStart, size)
-        self.printGrids()
 
 
 
