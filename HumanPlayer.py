@@ -10,7 +10,7 @@ class HumanPlayer(Player):
          "D": 2
         }
   def placeShip(self, ship, size): #This method uses human input to place ships
-      ##self.printGrids()
+      self.printGrids()
       while True: #This loop keeps running until the user is able to place their ship
           row = int(input("Please enter a row number:"))
           column = int(input("Please enter a column number:"))
@@ -48,7 +48,7 @@ class HumanPlayer(Player):
               if canPlaceShip: #if you can place the ship
                   self.gridShips.changeCol(column, ship, row-size, size)
                   return
-              self.printGrids()
+
 
   def isShipSunk(self, otherPlayer, row, column ):#this method determines if the other player's ship has been sunk or not
       ship = otherPlayer.gridShips.returnLocation(row, column) #returns a ship (eg. A, B..)
@@ -59,10 +59,13 @@ class HumanPlayer(Player):
               return True
       return False
 
+  #if (direction != "horizontal" and direction != "vertical"):
+             # print ("Please enter new input")
+             # continue
 
   def takeTurn(self, otherPlayer):#this method determines if you hit your opponent's ship
-      column = int(input("Please enter a column number:"))
-      row = int(input("Please enter a row number:"))
+      column  = int((input("Please enter a column number between 0 and 9:")))
+      row = int(input("Please enter a row number between 0 and 9:"))
       if otherPlayer.gridShips.isSpaceWater(row, column) == False: #not water - you have hit a ship!
           self.gridShots.changeSingleSpace(row, column, "H")
           if self.isShipSunk(otherPlayer, row, column) == True: #if all spots of the opponent's ship have been sunk
