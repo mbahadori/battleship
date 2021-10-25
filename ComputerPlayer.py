@@ -23,9 +23,9 @@ class ComputerPlayer(Player):
         num = self.shipKey.get(ship)
         if ship in self.shipKey: # ship in the game
             self.shipKey.update({ship: num-1})
-            if num == 0: # all spots of the ship have been hit
+            if num == 1: # all spots of the ship have been hit
                 return True
-
+        return False
 
     # ComputerPlayer randomly makes a shot,
     # Changes grid to have an M for miss and H for hit
@@ -39,12 +39,13 @@ class ComputerPlayer(Player):
             c = random.randint(0, 9)
             if otherPlayer.gridShips.isSpaceWater(r, c):  # if it is water
                 self.gridShots.changeSingleSpace(r, c, "M")  # M = miss
-                #self.printGrids()
+                otherPlayer.gridShips.changeSingleSpace(r, c, "M")
             else:  # ship is shot
                 self.gridShots.changeSingleSpace(r, c, "H")  # H = hit
-                #self.printGrids()
                 if otherPlayer.isShipSunk(otherPlayer, r, c):  # sunk a ship
                     print(otherPlayer.gridShips.returnLocation(r, c) + " is sunk")
+                otherPlayer.gridShips.changeSingleSpace(r, c, "H")
+            print(otherPlayer.shipKey)
 
 
     # Places the ships in valid places
@@ -52,7 +53,6 @@ class ComputerPlayer(Player):
     # ship : type of ship
     # size : number of spots ship uses
     def placeShip(self, ship, size):
-        self.printGrids()
         x = False
         count = 0
         rStart = 0

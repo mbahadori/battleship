@@ -2,7 +2,7 @@ from Player import Player
 class HumanPlayer(Player):
   def __init__(self): #constructor - initializes the gridsShip, gridShots, and ShipKey attributes of the class
         super().__init__()
-        self.ShipKey = {
+        self.shipKey = {
          "A": 5,
          "B": 4,
          "C": 3,
@@ -48,36 +48,48 @@ class HumanPlayer(Player):
               if canPlaceShip: #if you can place the ship
                   self.gridShips.changeCol(column, ship, row-size, size)
                   return
-              self.printGrids()
 
-  def isShipSunk(self, otherPlayer, row, column ):#this method determines if the other player's ship has been sunk or not
+  """def isShipSunk(self, otherPlayer, row, column ):#this method determines if the other player's ship has been sunk or not
       ship = otherPlayer.gridShips.returnLocation(row, column) #returns a ship (eg. A, B..)
       if ship in self.ShipKey: #if ship is found in ShipKey
           num = self.ShipKey.get(ship)
           self.ShipKey.update({ship: num - 1})
           if self.ShipKey[ship] == 0: #if the ship has been sunk
               return True
-      return False
+      return False"""
 
+  def isShipSunk(self, otherPlayer, r, c):
+        ship = otherPlayer.gridShips.returnLocation(r, c)
+        num = self.shipKey.get(ship)
+        if ship in self.shipKey: # ship in the game
+            self.shipKey.update({ship: num-1})
+            if num == 1: # all spots of the ship have been hit
+                return True
+        return False
 
   def takeTurn(self, otherPlayer):#this method determines if you hit your opponent's ship
       column = int(input("Please enter a column number:"))
       row = int(input("Please enter a row number:"))
+      if otherPlayer.stillHasShips() == False:  # all ships are sunk
+          print("You have sunk all ships, you win!")
       if otherPlayer.gridShips.isSpaceWater(row, column) == False: #not water - you have hit a ship!
           self.gridShots.changeSingleSpace(row, column, "H")
-          if self.isShipSunk(otherPlayer, row, column) == True: #if all spots of the opponent's ship have been sunk
-              return "You got a hit and the ship has been sunk!"
+          if otherPlayer.isShipSunk(otherPlayer, row, column) == True: #if all spots of the opponent's ship have been sunk
+               print(otherPlayer.gridShips.returnLocation(row, column) + " is sunk")
           else: #if you hit a spot on the opponent's ship but it has not sunk
-              return "You got a hit!"
+               print("You got a hit!")
+          otherPlayer.gridShips.changeSingleSpace(row, column, "H")
       else:#you hit water
         self.gridShots.changeSingleSpace(row, column, "M")
-        return "You missed!"
+        otherPlayer.gridShips.changeSingleSpace(row, column, "M")
+        print("You missed!")
+      print(otherPlayer.shipKey)
 
 
   def stillHasShips(self): #this method determines if the Player's ship grid still has ships or not
       sum = 0
-      for x in self.ShipKey: #This loop sums up the numerical values of ShipKey
-          sum = sum + self.ShipKey.get(x)
+      for x in self.shipKey: #This loop sums up the numerical values of ShipKey
+          sum = sum + self.shipKey.get(x)
       if sum == 0: #if all ships have been sunk, the other player wins
          return False
       else: #if there is still ships that have not been sunk
