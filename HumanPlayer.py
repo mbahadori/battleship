@@ -49,15 +49,6 @@ class HumanPlayer(Player):
                   self.gridShips.changeCol(column, ship, row-size, size)
                   return
 
-  """def isShipSunk(self, otherPlayer, row, column ):#this method determines if the other player's ship has been sunk or not
-      ship = otherPlayer.gridShips.returnLocation(row, column) #returns a ship (eg. A, B..)
-      if ship in self.ShipKey: #if ship is found in ShipKey
-          num = self.ShipKey.get(ship)
-          self.ShipKey.update({ship: num - 1})
-          if self.ShipKey[ship] == 0: #if the ship has been sunk
-              return True
-      return False"""
-
   def isShipSunk(self, otherPlayer, r, c):
         ship = otherPlayer.gridShips.returnLocation(r, c)
         num = self.shipKey.get(ship)
