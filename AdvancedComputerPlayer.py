@@ -41,6 +41,11 @@ class AdvancedComputerPlayer(Player):
         else:
             r = random.randint(0, 9)
             c = random.randint(0, 9)
+            for i in range(len(self.gridOption)): # traverse gridOption to see if theres an option
+                for j in range(len(self.gridOption[j])): # traverse column
+                    if self.gridOption[i][j] == "O": # if option spot is available
+                        r = i
+                        c = j
             if otherPlayer.gridShips.isSpaceWater(r, c):  # if it is water
                 self.gridShots.changeSingleSpace(r, c, "M")  # M = miss
                 otherPlayer.gridShips.changeSingleSpace(r, c, "M")
