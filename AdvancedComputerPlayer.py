@@ -49,7 +49,7 @@ class AdvancedComputerPlayer(Player):
                 self.gridShots.changeSingleSpace(r, c, "H")  # H = hit
                 self.lastHitR = r
                 self.lastHitC = c
-                self.hitShip(otherPlayer,r,c)
+                self.hitShip(otherPlayer, self.lastHitR, self.lastHitC)
                 if otherPlayer.isShipSunk(otherPlayer, r, c):  # sunk a ship
                     print(otherPlayer.gridShips.returnLocation(r, c) + " is sunk")
                 otherPlayer.gridShips.changeSingleSpace(r, c, "H")
@@ -57,7 +57,14 @@ class AdvancedComputerPlayer(Player):
             print(otherPlayer.shipKey)
 
     def hitShip(self, otherPlayer, r, c): # add option spots
-
+        if self.gridOption.isSpaceWater(r+1, c): # open spot
+            self.gridOption[r+1][c] = "O"
+        if self.gridOption.isSpaceWater(r-1 , c): # open spot
+            self.gridOption[r - 1][c] = "O"
+        if self.gridOption.isSpaceWater(r, c+1): # open spot
+            self.gridOption[r][c + 1] = "O"
+        if self.gridOption.isSpaceWater(r, c-1): # open spot
+            self.gridOption[r][c - 1] = "O"
 
 
 
