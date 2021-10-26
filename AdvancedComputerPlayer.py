@@ -12,6 +12,10 @@ class AdvancedComputerPlayer(Player):
             "S": 3,
             "D": 2
         }
+        self.lastHitR = 0
+        self.lastHitC = 0
+        self.gridOption()
+
 
     # figures out if the ship is sunk
     # r : row of last shot
@@ -40,16 +44,20 @@ class AdvancedComputerPlayer(Player):
             if otherPlayer.gridShips.isSpaceWater(r, c):  # if it is water
                 self.gridShots.changeSingleSpace(r, c, "M")  # M = miss
                 otherPlayer.gridShips.changeSingleSpace(r, c, "M")
+                self.gridOption.changeSingleSpace(r, c, "M")
             else:  # ship is shot
                 self.gridShots.changeSingleSpace(r, c, "H")  # H = hit
+                self.lastHitR = r
+                self.lastHitC = c
                 self.hitShip(otherPlayer,r,c)
                 if otherPlayer.isShipSunk(otherPlayer, r, c):  # sunk a ship
                     print(otherPlayer.gridShips.returnLocation(r, c) + " is sunk")
                 otherPlayer.gridShips.changeSingleSpace(r, c, "H")
+                self.gridOption.changeSingleSpace(r, c, "H")
             print(otherPlayer.shipKey)
 
-    def hitShip(self, otherPlayer, r, c): # runs until ship is sunk
-        while(otherPlayer.isShipSunk(otherPlayer, r, c) == False): # while ship isnt sunk
+    def hitShip(self, otherPlayer, r, c): # add option spots
+
 
 
 
