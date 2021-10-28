@@ -5,7 +5,6 @@ from ComputerPlayer import ComputerPlayer
 
 A1 = AdvancedComputerPlayer() #check if this works
 A1.createShipGrid()
-A1.findOptionSpots()
 A1.printGrids()
 
 

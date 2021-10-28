@@ -13,10 +13,7 @@ class AdvancedComputerPlayer(Player):
             "S": 3,
             "D": 2
         }
-        self.lastHitR = 0
-        self.lastHitC = 0
         self.gridOption = Grid()
-        self.OddorEven = 0
 
 
     # figures out if the ship is sunk
@@ -33,14 +30,6 @@ class AdvancedComputerPlayer(Player):
                 return True
         return False
 
-    def findOptionSpots(self): #finding options to hit (every other board spot so you maximize hits)
-        for i in range(10):
-            for j in range(self.OddorEven, 10, 2): # 0-9 (when 0, columns = 0,2,4,6,8, when 1,columns = 1, 3, 5, 7, 9)
-                self.gridOption.changeSingleSpace(i, j, "O")
-            if self.OddorEven == 0: #hit (0,0), (0,2) (0,4) (0,6) then (0,8) next time you want to hit (1,1) (1,3), (1,5), (1,7), (1,9)
-                self.OddorEven += 1
-            else: #self.OddorEven = 1
-                self.OddorEven -= 1
 
     # ComputerPlayer randomly makes a shot,
     # Changes grid to have an M for miss and H for hit
@@ -52,11 +41,6 @@ class AdvancedComputerPlayer(Player):
         else:
             r = random.randint(0, 9)
             c = random.randint(0, 9)
-            for i in range(10): # traverse gridOption to see if theres an option
-                for j in range(10): # traverse column
-                    if self.gridOption.returnLocation(i,j) == "0": # if option spot is available
-                        r = i
-                        c = j
             for i in range(10): # traverse gridOption to see if theres an option
                 for j in range(10): # traverse column
                     if self.gridOption.returnLocation(i,j) == "P": # if priority spot is available
@@ -79,11 +63,11 @@ class AdvancedComputerPlayer(Player):
     def hitShip(self, r, c): # adds priority spots
         if r+1 < 10 and self.gridOption.isSpaceWater(r+1, c): # open spot
             self.gridOption.changeSingleSpace(r+1, c, "P")
-        if r-1 > -1 and self.gridOption.isSpaceWater(r-1 , c): # open spot
+        if r-1 >= 0 and self.gridOption.isSpaceWater(r-1 , c): # open spot
             self.gridOption.changeSingleSpace(r-1, c, "P")
         if c+1 < 10 and self.gridOption.isSpaceWater(r, c+1): # open spot
             self.gridOption.changeSingleSpace(r, c+1, "P")
-        if c-1 > -1 and self.gridOption.isSpaceWater(r, c-1): # open spot
+        if c-1 >= 0 and self.gridOption.isSpaceWater(r, c-1): # open spot
             self.gridOption.changeSingleSpace(r, c-1, "P")
 
 
