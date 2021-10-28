@@ -46,7 +46,7 @@ class AdvancedComputerPlayer(Player):
                     if self.gridOption.returnLocation(i,j) == "P": # if priority spot is available
                         r = i
                         c = j
-            # priority loop is second to make sure that the ACP goes for P spots over O spots
+            # priority loop is second to make sure that the ACP goes for P spots
             if otherPlayer.gridShips.isSpaceWater(r, c):  # if it is water
                 self.gridShots.changeSingleSpace(r, c, "M")  # M = miss
                 otherPlayer.gridShips.changeSingleSpace(r, c, "M")
@@ -60,6 +60,9 @@ class AdvancedComputerPlayer(Player):
                 self.gridOption.changeSingleSpace(r, c, "H")
             print(otherPlayer.shipKey)
 
+    # marks four spots around the hit spot for the ACP option grid
+    # r - row of last hit
+    # c - column of last hit
     def hitShip(self, r, c): # adds priority spots
         if r+1 < 10 and self.gridOption.isSpaceWater(r+1, c): # open spot
             self.gridOption.changeSingleSpace(r+1, c, "P")
@@ -86,8 +89,8 @@ class AdvancedComputerPlayer(Player):
             cStart = random.randint(0, 9)
             direction = random.randint(0, 1)
             count = 0
-            if self.gridShips.isSpaceWater(rStart, cStart):
-                # 0 = down, 1 = up, 2 = right, 3 = left
+            if self.gridShips.isSpaceWater(rStart, cStart): # space is water at that index
+                # 0 = down, 1 = right
                 for y in range(size): # checks if all spots are valid
                     if direction == 0:  # down
                         if (rStart + size) <= 10 and self.gridShips.isSpaceWater(rStart+y, cStart):
