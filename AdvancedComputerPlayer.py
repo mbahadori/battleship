@@ -1,5 +1,6 @@
 import random
 from Player import Player
+from Grid import Grid
 class AdvancedComputerPlayer(Player):
 
 
@@ -14,7 +15,7 @@ class AdvancedComputerPlayer(Player):
         }
         self.lastHitR = 0
         self.lastHitC = 0
-        self.gridOption()
+        self.gridOption = Grid()
         self.OddorEven = 0
 
 
@@ -35,7 +36,7 @@ class AdvancedComputerPlayer(Player):
     def findOptionSpots(self): #finding options to hit (every other board spot so you maximize hits)
         for i in range(10):
             for j in range(self.OddorEven, 10, 2): # 0-9 (when 0, columns = 0,2,4,6,8, when 1,columns = 1, 3, 5, 7, 9)
-                gridOption.changeSingleSpace(i, j, "O")
+                self.gridOption.changeSingleSpace(i, j, "O")
             if self.OddorEven == 0: #hit (0,0), (0,2) (0,4) (0,6) then (0,8) next time you want to hit (1,1) (1,3), (1,5), (1,7), (1,9)
                 self.OddorEven += 1
             else: #self.OddorEven = 1
@@ -51,14 +52,14 @@ class AdvancedComputerPlayer(Player):
         else:
             r = random.randint(0, 9)
             c = random.randint(0, 9)
-            for i in range(len(self.gridOption)): # traverse gridOption to see if theres an option
-                for j in range(len(self.gridOption[j])): # traverse column
-                    if self.gridOption[i][j] == "0": # if option spot is available
+            for i in range(10): # traverse gridOption to see if theres an option
+                for j in range(10): # traverse column
+                    if self.gridOption.returnLocation(i,j) == "0": # if option spot is available
                         r = i
                         c = j
-            for i in range(len(self.gridOption)): # traverse gridOption to see if theres an option
-                for j in range(len(self.gridOption[j])): # traverse column
-                    if self.gridOption[i][j] == "P": # if priority spot is available
+            for i in range(10): # traverse gridOption to see if theres an option
+                for j in range(10): # traverse column
+                    if self.gridOption.returnLocation(i,j) == "P": # if priority spot is available
                         r = i
                         c = j
             # priority loop is second to make sure that the ACP goes for P spots over O spots
@@ -68,25 +69,22 @@ class AdvancedComputerPlayer(Player):
                 self.gridOption.changeSingleSpace(r, c, "M")
             else:  # ship is shot
                 self.gridShots.changeSingleSpace(r, c, "H")  # H = hit
-                self.lastHitR = r
-                self.lastHitC = c
-                self.hitShip(otherPlayer, self.lastHitR, self.lastHitC)
-
+                self.hitShip(r, c)
                 if otherPlayer.isShipSunk(otherPlayer, r, c):  # sunk a ship
                     print(otherPlayer.gridShips.returnLocation(r, c) + " is sunk")
                 otherPlayer.gridShips.changeSingleSpace(r, c, "H")
                 self.gridOption.changeSingleSpace(r, c, "H")
             print(otherPlayer.shipKey)
 
-    def hitShip(self, otherPlayer, r, c): # adds priority spots
-        if self.gridOption.isSpaceWater(r+1, c): # open spot
-            self.gridOption[r+1][c] = "P"
-        if self.gridOption.isSpaceWater(r-1 , c): # open spot
-            self.gridOption[r - 1][c] = "P"
-        if self.gridOption.isSpaceWater(r, c+1): # open spot
-            self.gridOption[r][c + 1] = "P"
-        if self.gridOption.isSpaceWater(r, c-1): # open spot
-            self.gridOption[r][c - 1] = "P"
+    def hitShip(self, r, c): # adds priority spots
+        if r+1 < 10 and self.gridOption.isSpaceWater(r+1, c): # open spot
+            self.gridOption.changeSingleSpace(r+1, c, "P")
+        if r-1 > -1 and self.gridOption.isSpaceWater(r-1 , c): # open spot
+            self.gridOption.changeSingleSpace(r-1, c, "P")
+        if c+1 < 10 and self.gridOption.isSpaceWater(r, c+1): # open spot
+            self.gridOption.changeSingleSpace(r, c+1, "P")
+        if c-1 > -1 and self.gridOption.isSpaceWater(r, c-1): # open spot
+            self.gridOption.changeSingleSpace(r, c-1, "P")
 
 
 
