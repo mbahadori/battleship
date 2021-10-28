@@ -1,5 +1,6 @@
 import random
 from Player import Player
+from Grid import Grid
 class AdvancedComputerPlayer(Player):
 
 
@@ -14,7 +15,7 @@ class AdvancedComputerPlayer(Player):
         }
         self.lastHitR = 0
         self.lastHitC = 0
-        self.gridOption()
+        self.gridOption = Grid()
         self.OddorEven = 0 #0 for even, 1 for odd
 
 
@@ -53,12 +54,12 @@ class AdvancedComputerPlayer(Player):
             c = random.randint(0, 9)
             for i in range(len(self.gridOption)): # traverse gridOption to see if theres an option
                 for j in range(len(self.gridOption[j])): # traverse column
-                    if self.gridOption[i][j] == "0": # if option spot is available
+                    if self.gridOption.returnLocation(i, j)== "0": # if option spot is available
                         r = i
                         c = j
             for i in range(len(self.gridOption)): # traverse gridOption to see if theres an option
                 for j in range(len(self.gridOption[j])): # traverse column
-                    if self.gridOption[i][j] == "P": # if priority spot is available
+                    if self.gridOption.returnLocation(i, j) == "P": # if priority spot is available
                         r = i
                         c = j
             # priority loop is second to make sure that the ACP goes for P spots over O spots
