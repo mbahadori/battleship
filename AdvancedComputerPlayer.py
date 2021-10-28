@@ -15,6 +15,7 @@ class AdvancedComputerPlayer(Player):
         self.lastHitR = 0
         self.lastHitC = 0
         self.gridOption()
+        self.OddorEven = 0 #0 for even, 1 for odd
 
 
     # figures out if the ship is sunk
@@ -30,6 +31,15 @@ class AdvancedComputerPlayer(Player):
             if num == 1: # all spots of the ship have been hit
                 return True
         return False
+
+    def findOptionSpots(self): #finding options to hit (every other board spot so you maximize hits)
+        for i in range(10):
+            for j in range(self.OddorEven, 10, 2): # 0-9 (when 0, columns = 0,2,4,6,8, when 1,columns = 1, 3, 5, 7, 9)
+                self.gridOption[i][j] = "O"
+            if self.OddorEven == 0: #hit (0,0), (0,2) (0,4) (0,6) then (0,8) next time you want to hit (1,1) (1,3), (1,5), (1,7), (1,9)
+                self.OddorEven += 1
+            else: #self.OddorEven = 1
+                self.OddorEven -= 1
 
     # ComputerPlayer randomly makes a shot,
     # Changes grid to have an M for miss and H for hit
@@ -61,6 +71,7 @@ class AdvancedComputerPlayer(Player):
                 self.lastHitR = r
                 self.lastHitC = c
                 self.hitShip(otherPlayer, self.lastHitR, self.lastHitC)
+
                 if otherPlayer.isShipSunk(otherPlayer, r, c):  # sunk a ship
                     print(otherPlayer.gridShips.returnLocation(r, c) + " is sunk")
                 otherPlayer.gridShips.changeSingleSpace(r, c, "H")
@@ -76,7 +87,6 @@ class AdvancedComputerPlayer(Player):
             self.gridOption[r][c + 1] = "P"
         if self.gridOption.isSpaceWater(r, c-1): # open spot
             self.gridOption[r][c - 1] = "P"
-
 
 
 
