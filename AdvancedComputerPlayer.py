@@ -43,9 +43,15 @@ class AdvancedComputerPlayer(Player):
             c = random.randint(0, 9)
             for i in range(len(self.gridOption)): # traverse gridOption to see if theres an option
                 for j in range(len(self.gridOption[j])): # traverse column
-                    if self.gridOption[i][j] == "O": # if option spot is available
+                    if self.gridOption[i][j] == "0": # if option spot is available
                         r = i
                         c = j
+            for i in range(len(self.gridOption)): # traverse gridOption to see if theres an option
+                for j in range(len(self.gridOption[j])): # traverse column
+                    if self.gridOption[i][j] == "P": # if priority spot is available
+                        r = i
+                        c = j
+            # priority loop is second to make sure that the ACP goes for P spots over O spots
             if otherPlayer.gridShips.isSpaceWater(r, c):  # if it is water
                 self.gridShots.changeSingleSpace(r, c, "M")  # M = miss
                 otherPlayer.gridShips.changeSingleSpace(r, c, "M")
@@ -61,15 +67,15 @@ class AdvancedComputerPlayer(Player):
                 self.gridOption.changeSingleSpace(r, c, "H")
             print(otherPlayer.shipKey)
 
-    def hitShip(self, otherPlayer, r, c): # add option spots
+    def hitShip(self, otherPlayer, r, c): # adds priority spots
         if self.gridOption.isSpaceWater(r+1, c): # open spot
-            self.gridOption[r+1][c] = "O"
+            self.gridOption[r+1][c] = "P"
         if self.gridOption.isSpaceWater(r-1 , c): # open spot
-            self.gridOption[r - 1][c] = "O"
+            self.gridOption[r - 1][c] = "P"
         if self.gridOption.isSpaceWater(r, c+1): # open spot
-            self.gridOption[r][c + 1] = "O"
+            self.gridOption[r][c + 1] = "P"
         if self.gridOption.isSpaceWater(r, c-1): # open spot
-            self.gridOption[r][c - 1] = "O"
+            self.gridOption[r][c - 1] = "P"
 
 
 
